@@ -18,13 +18,9 @@ import com.teamwizardry.librarianlib.features.sprite.SpritesMetadataSection
 import com.teamwizardry.librarianlib.features.sprite.SpritesMetadataSectionSerializer
 import com.teamwizardry.librarianlib.features.sprite.Texture
 import com.teamwizardry.librarianlib.features.tesr.TileRendererRegisterProcessor
-import com.teamwizardry.librarianlib.features.text.Fonts
 import com.teamwizardry.librarianlib.features.utilities.client.ClientRunnable
 import com.teamwizardry.librarianlib.features.utilities.client.F3Handler
 import com.teamwizardry.librarianlib.features.utilities.client.ScissorUtil
-import games.thecodewarrior.bitfont.typesetting.AttributedString
-import games.thecodewarrior.bitfont.typesetting.TypesetString
-import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.resources.I18n
@@ -103,8 +99,8 @@ class LibClientProxy : LibCommonProxy(), ISelectiveResourceReloadListener {
         // - loads ICU and related files
         // This process seems to take around a second, so frontloading this process prevents stutters when first
         // opening a GUI that uses Bitfont
-        @UseExperimental(ExperimentalBitfont::class)
-        TypesetString(Fonts.classic, AttributedString(('\u0020'..'\u007E').joinToString("")))
+//        @UseExperimental(ExperimentalBitfont::class)
+//        TypesetString(Fonts.classic, AttributedString(('\u0020'..'\u007E').joinToString("")))
     }
 
     override fun lateInit(e: FMLInitializationEvent) {
@@ -126,7 +122,7 @@ class LibClientProxy : LibCommonProxy(), ISelectiveResourceReloadListener {
     }
 
     override fun getResource(modId: String, path: String): InputStream? {
-        val fixedModId = modId.toLowerCase(Locale.ROOT)
+        val fixedModId = modId.lowercase(Locale.ROOT)
         val fixedPath = VariantHelper.pathToSnakeCase(path).removePrefix("/")
 
         val resourceManager = Minecraft.getMinecraft().resourceManager

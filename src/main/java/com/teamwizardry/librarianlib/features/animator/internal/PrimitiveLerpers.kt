@@ -40,17 +40,17 @@ object PrimitiveLerpers {
         }
 
         LerperHandler.registerLerper(Short::class.javaObjectType) { from, to, frac ->
-            (from + (to - from) * frac).toShort()
+            (from + (to - from) * frac).toInt().toShort()
         }
         LerperHandler.registerLerper(Short::class.javaPrimitiveType!!) { from, to, frac ->
-            (from + (to - from) * frac).toShort()
+            (from + (to - from) * frac).toInt().toShort()
         }
 
         LerperHandler.registerLerper(Byte::class.javaObjectType) { from, to, frac ->
-            (from + (to - from) * frac).toByte()
+            (from + (to - from) * frac).toInt().toByte()
         }
         LerperHandler.registerLerper(Byte::class.javaPrimitiveType!!) { from, to, frac ->
-            (from + (to - from) * frac).toByte()
+            (from + (to - from) * frac).toInt().toByte()
         }
 
         LerperHandler.registerLerper(Char::class.javaObjectType) { from, to, frac ->

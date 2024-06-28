@@ -7,20 +7,13 @@ import com.teamwizardry.librarianlib.features.helpers.rect
 import com.teamwizardry.librarianlib.features.helpers.vec
 import com.teamwizardry.librarianlib.features.math.Align2d
 import com.teamwizardry.librarianlib.features.math.Rect2d
-import com.teamwizardry.librarianlib.features.text.Fonts
-import com.teamwizardry.librarianlib.features.text.TypesetStringRenderer
-import com.teamwizardry.librarianlib.features.text.fromMC
-import games.thecodewarrior.bitfont.data.Bitfont
-import games.thecodewarrior.bitfont.typesetting.AttributedString
-import games.thecodewarrior.bitfont.typesetting.TypesetString
-import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
-import games.thecodewarrior.bitfont.utils.Vec2i
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.renderer.GlStateManager
 import java.awt.Color
 import kotlin.math.max
 import kotlin.math.min
 
-@ExperimentalBitfont
 open class TextLayer(posX: Int, posY: Int, width: Int, height: Int): GuiLayer(posX, posY, width, height) {
     constructor(posX: Int, posY: Int, text: String): this(posX, posY, 0, 0) {
         this.text = text
@@ -42,7 +35,7 @@ open class TextLayer(posX: Int, posY: Int, width: Int, height: Int): GuiLayer(po
     // options that change the layout
     var text: String by text_im
     var wrap: Boolean = false
-    var font: Bitfont = Fonts.classic
+    var font: FontRenderer = Minecraft.getMinecraft().fontRenderer
     var align: Align2d = Align2d.TOP_LEFT
     var maxLines: Int = Int.MAX_VALUE
     var lineSpacing: Int = 0
@@ -53,10 +46,10 @@ open class TextLayer(posX: Int, posY: Int, width: Int, height: Int): GuiLayer(po
     var fitToText: Boolean = false
     var margins: Margins2d = Margins2d(0.0, 0.0, 0.0, 0.0)
 
-    val lineCount: Int get() = typesetString.lines.size
-
-    private var renderer = TypesetStringRenderer()
-    private var typesetString: TypesetString = renderer.typesetString
+//    val lineCount: Int get() = typesetString.lines.size
+//
+//    private var renderer = TypesetStringRenderer()
+//    private var typesetString: TypesetString = renderer.typesetString
     private var lastParams = emptyList<Any>()
     /**
      * The bounds of the text pre-truncation.
@@ -94,7 +87,7 @@ open class TextLayer(posX: Int, posY: Int, width: Int, height: Int): GuiLayer(po
 
         GlStateManager.translate(margins.left, margins.top, 0.0)
 
-
+/*
         typesetString.lines.forEach { line ->
             val lineHGap = size.x - margins.width - (line.endX - line.startX)
             line.offset = when(align.x) {
@@ -103,7 +96,7 @@ open class TextLayer(posX: Int, posY: Int, width: Int, height: Int): GuiLayer(po
                 Align2d.X.RIGHT -> Vec2i(lineHGap.toInt(), 0)
             }
         }
-
+*/
         val contentVGap = size.y - margins.height - textBounds.height
         when(align.y) {
             Align2d.Y.TOP -> {}
@@ -111,8 +104,7 @@ open class TextLayer(posX: Int, posY: Int, width: Int, height: Int): GuiLayer(po
             Align2d.Y.BOTTOM -> GlStateManager.translate(0.0, contentVGap, 0.0)
         }
 
-        renderer.defaultColor = color
-        renderer.draw()
+        font.drawString(text, x.toFloat(), y.toFloat(), color.rgb, false)
 
         GlStateManager.popMatrix()
     }
@@ -126,41 +118,43 @@ open class TextLayer(posX: Int, posY: Int, width: Int, height: Int): GuiLayer(po
         )
         if(newParams == lastParams) return
         lastParams = newParams
-        val attributedString = AttributedString.fromMC(newString)
-        typesetString = TypesetString(font, attributedString, if(wrap) contentWidth else -1, lineSpacing + 1)
+//        val attributedString = AttributedString.fromMC(newString)
+//        typesetString = TypesetString(font, attributedString, if(wrap) contentWidth else -1, lineSpacing + 1)
         fullTextBounds = measureTextBounds()
         textBounds = fullTextBounds
 
         if(textBounds !in this.bounds)
             getTruncatedLength()?.also { truncatedLength ->
-                val truncatedString = AttributedString.fromMC(newString.substring(0, truncatedLength) + "§r…")
-                typesetString = TypesetString(font, truncatedString, if(wrap) contentWidth else -1, lineSpacing + 1)
+//                val truncatedString = AttributedString.fromMC(newString.substring(0, truncatedLength) + "§r…")
+//                typesetString = TypesetString(font, truncatedString, if(wrap) contentWidth else -1, lineSpacing + 1)
                 textBounds = measureTextBounds()
             }
 
-        renderer.typesetString = typesetString
+//        renderer.typesetString = typesetString
     }
 
     private fun measureTextBounds(): Rect2d {
-        if(typesetString.glyphs.isEmpty()) {
-            return rect(margins.left, margins.top, 0, 0)
-        }
+//        if(typesetString.glyphs.isEmpty()) {
+//            return rect(margins.left, margins.top, 0, 0)
+//        }
 
-        return rect(
-            0, 0,
-            typesetString.lines.map { it.endX }.max() ?: 0,
-            typesetString.lines.last().let { it.baseline+it.maxDescent }
-        )
+        return rect(0, 0, font.getStringWidth(text), font.FONT_HEIGHT)
+//        return rect(
+//            0, 0,
+//            typesetString.lines.map { it.endX }.max() ?: 0,
+//            typesetString.lines.last().let { it.baseline+it.maxDescent }
+//        )
     }
 
     private fun getTruncatedLength(): Int? {
-        if(!truncate || typesetString.lines.isEmpty())
+        if(!truncate || maxLines == 0 || text.isEmpty())
             return null
-        val ellipses = font.glyphs['…'.toInt()]
-        val trimX = size.x - margins.width - ellipses.calcAdvance(font.spacing)
-        val lastLine = typesetString.lines[min(maxLines, typesetString.lines.size)-1]
-        val lastGlyph = lastLine.glyphs.last { it.posAfter.x < trimX }
-        return lastGlyph.characterIndex+1
+        return text.length
+    //        val ellipses = font.glyphs['…'.toInt()]
+//        val trimX = size.x - margins.width - ellipses.calcAdvance(font.spacing)
+//        val lastLine = typesetString.lines[min(maxLines, typesetString.lines.size)-1]
+//        val lastGlyph = lastLine.glyphs.last { it.posAfter.x < trimX }
+//        return lastGlyph.characterIndex+1
     }
 
     /**
@@ -177,25 +171,25 @@ open class TextLayer(posX: Int, posY: Int, width: Int, height: Int): GuiLayer(po
         }
     }
 
-    companion object {
-        @JvmStatic
-        @JvmOverloads
-        fun stringSize(text: String, wrap: Int? = null, font: Bitfont = Fonts.classic): Rect2d
-            = stringSize(AttributedString.fromMC(text), wrap, font)
-
-        @JvmStatic
-        @JvmOverloads
-        fun stringSize(text: AttributedString, wrap: Int? = null, font: Bitfont = Fonts.classic): Rect2d {
-            val typesetString = TypesetString(font, text, wrap ?: -1, 1)
-            if(typesetString.glyphs.isEmpty()) {
-                return Rect2d.ZERO
-            }
-
-            val minY = typesetString.lines.first().let { it.baseline-it.maxAscent }
-            val maxY = typesetString.lines.last().let { it.baseline+it.maxDescent }
-            val minX = 0
-            val maxX = typesetString.lines.map { it.endX }.max() ?: 0
-            return rect(minX, minY, maxX-minX, maxY-minY)
-        }
-    }
+//    companion object {
+//        @JvmStatic
+//        @JvmOverloads
+//        fun stringSize(text: String, wrap: Int? = null, font: Bitfont = Fonts.classic): Rect2d
+//            = stringSize(AttributedString.fromMC(text), wrap, font)
+//
+//        @JvmStatic
+//        @JvmOverloads
+//        fun stringSize(text: AttributedString, wrap: Int? = null, font: Bitfont = Fonts.classic): Rect2d {
+//            val typesetString = TypesetString(font, text, wrap ?: -1, 1)
+//            if(typesetString.glyphs.isEmpty()) {
+//                return Rect2d.ZERO
+//            }
+//
+//            val minY = typesetString.lines.first().let { it.baseline-it.maxAscent }
+//            val maxY = typesetString.lines.last().let { it.baseline+it.maxDescent }
+//            val minX = 0
+//            val maxX = typesetString.lines.map { it.endX }.max() ?: 0
+//            return rect(minX, minY, maxX-minX, maxY-minY)
+//        }
+//    }
 }

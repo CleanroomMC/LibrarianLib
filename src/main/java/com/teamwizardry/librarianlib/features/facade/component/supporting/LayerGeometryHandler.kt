@@ -5,13 +5,13 @@ import com.teamwizardry.librarianlib.features.facade.value.RMValue
 import com.teamwizardry.librarianlib.features.facade.value.RMValueDouble
 import com.teamwizardry.librarianlib.features.helpers.rect
 import com.teamwizardry.librarianlib.features.helpers.vec
-import com.teamwizardry.librarianlib.features.kotlin.unaryMinus
 import com.teamwizardry.librarianlib.features.math.Matrix3
 import com.teamwizardry.librarianlib.features.math.Rect2d
 import com.teamwizardry.librarianlib.features.math.Vec2d
 import com.teamwizardry.librarianlib.features.math.coordinatespaces.CoordinateSpace2D
 import net.minecraft.client.renderer.GlStateManager
 
+@JvmDefaultWithoutCompatibility
 interface ILayerGeometry: CoordinateSpace2D {
     /**
      * The bounding rectangle of this layer in its parent's coordinate space. The "outer" edge. Setting this value will
@@ -129,7 +129,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see widthf
      * @see widthi
      */
-    @JvmDefault
     var width: Double
         get() = size.x
         set(value) {
@@ -143,7 +142,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see width
      * @see widthi
      */
-    @JvmDefault
     var widthf: Float
         get() = size.xf
         set(value) {
@@ -157,7 +155,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see width
      * @see widthf
      */
-    @JvmDefault
     var widthi: Int
         get() = size.xi
         set(value) {
@@ -172,7 +169,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see heightf
      * @see heighti
      */
-    @JvmDefault
     var height: Double
         get() = size.y
         set(value) {
@@ -186,7 +182,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see height
      * @see heighti
      */
-    @JvmDefault
     var heightf: Float
         get() = size.yf
         set(value) {
@@ -200,7 +195,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see height
      * @see heightf
      */
-    @JvmDefault
     var heighti: Int
         get() = size.yi
         set(value) {
@@ -215,7 +209,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see xf
      * @see xi
      */
-    @JvmDefault
     var x: Double
         get() = pos.x
         set(value) {
@@ -229,7 +222,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see x
      * @see xi
      */
-    @JvmDefault
     var xf: Float
         get() = pos.xf
         set(value) {
@@ -243,7 +235,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see x
      * @see xf
      */
-    @JvmDefault
     var xi: Int
         get() = pos.xi
         set(value) {
@@ -258,7 +249,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see yf
      * @see yi
      */
-    @JvmDefault
     var y: Double
         get() = pos.y
         set(value) {
@@ -272,7 +262,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see y
      * @see yi
      */
-    @JvmDefault
     var yf: Float
         get() = pos.yf
         set(value) {
@@ -286,7 +275,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @see y
      * @see yf
      */
-    @JvmDefault
     var yi: Int
         get() = pos.yi
         set(value) {
@@ -351,7 +339,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      * @param includeLayer A predicate to filter out which layers should count their own bounds
      * @return The rect containing all the children that return true from the passed predicate
      */
-    @JvmDefault
     fun getContentsBounds(includeLayer: (layer: GuiLayer) -> Boolean): Rect2d? {
         return getContentsBounds(includeLayer, includeLayer)
     }
@@ -364,7 +351,6 @@ interface ILayerGeometry: CoordinateSpace2D {
      *
      * @return The rect containing all the visible children
      */
-    @JvmDefault
     fun getContentsBounds(): Rect2d? {
         return getContentsBounds { it.isVisible }
     }

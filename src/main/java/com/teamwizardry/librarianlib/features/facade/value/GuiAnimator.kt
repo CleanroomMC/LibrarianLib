@@ -256,26 +256,23 @@ private class GuiImplicitAnimation(val targets: List<ValueAnimation>): Animation
     }
 }
 
+@JvmDefaultWithoutCompatibility
 interface GuiAnimatable<T>: IAnimatable<T> {
     fun getAnimatableValue(): Any?
     fun setAnimatableValue(value: Any?)
     fun getAnimatableCallback(): Any?
     fun setAnimatableCallback(supplier: Any)
 
-    @JvmDefault
     override fun get(target: T): Any {
         return getAnimatableValue()!!
     }
 
-    @JvmDefault
     override fun set(target: T, value: Any) {
         setAnimatableValue(value)
     }
 
-    @JvmDefault
     override fun doesInvolve(target: T, obj: Any): Boolean = false
 
-    @JvmDefault
     override val type: Class<Any>
         get() = Any::class.java
 }

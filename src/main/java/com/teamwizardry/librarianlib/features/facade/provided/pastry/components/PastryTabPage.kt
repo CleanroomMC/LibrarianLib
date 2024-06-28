@@ -8,9 +8,7 @@ import com.teamwizardry.librarianlib.features.facade.layers.SpriteLayer
 import com.teamwizardry.librarianlib.features.facade.provided.pastry.PastryTexture
 import com.teamwizardry.librarianlib.features.helpers.vec
 import com.teamwizardry.librarianlib.features.utilities.client.LibCursor
-import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
 
-@ExperimentalBitfont
 open class PastryTabPage() : GuiComponent() {
     constructor(labelText: String) : this() {
         val label = PastryLabel(labelText)

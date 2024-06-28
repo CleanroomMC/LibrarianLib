@@ -48,7 +48,7 @@ fun <T> Class<T>.newInstanceUnsafe(more: Int = 0) = getUnsafe(1 + more).allocate
 fun Throwable.throwUnsafely(more: Int = 0) = getUnsafe(1 + more).throwException(this)
 @Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION")
 @Deprecated("Deprecated in java")
-fun Field.getOffset(more: Int = 0) = getUnsafe(1 + more).fieldOffset(this)
+fun Field.getOffset(more: Int = 0) = getUnsafe(1 + more).objectFieldOffset(this)
 
 inline fun <reified T : Any> T?.orNewUnsafe(): T = this ?: T::class.java.newInstanceUnsafe(1)
 inline fun <reified T : Any> T?.orNew(): T = this ?: T::class.java.constructors.elementAt(0).newInstance() as T

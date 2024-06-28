@@ -8,9 +8,7 @@ import com.teamwizardry.librarianlib.features.facade.layers.TextLayer
 import com.teamwizardry.librarianlib.features.facade.provided.pastry.BackgroundTexture
 import com.teamwizardry.librarianlib.features.facade.provided.pastry.layers.PastryBackground
 import com.teamwizardry.librarianlib.features.facade.value.IMValue
-import com.teamwizardry.librarianlib.features.helpers.rect
 import com.teamwizardry.librarianlib.features.helpers.vec
-import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.gui.GuiScreen
@@ -18,7 +16,6 @@ import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.item.ItemStack
 import java.awt.Color
 import kotlin.math.max
-import kotlin.math.min
 
 abstract class PastryTooltip: GuiLayer() {
     val contents = GuiLayer()
@@ -63,7 +60,7 @@ abstract class PastryTooltip: GuiLayer() {
     }
 }
 
-@UseExperimental(ExperimentalBitfont::class)
+// @UseExperimental(ExperimentalBitfont::class)
 class PastryBasicTooltip: PastryTooltip() {
     private val textLayer = TextLayer(2, 1)
 

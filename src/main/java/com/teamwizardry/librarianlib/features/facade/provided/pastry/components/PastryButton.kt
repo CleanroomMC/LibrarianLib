@@ -4,16 +4,12 @@ import com.teamwizardry.librarianlib.features.eventbus.Event
 import com.teamwizardry.librarianlib.features.eventbus.Hook
 import com.teamwizardry.librarianlib.features.facade.component.GuiComponentEvents
 import com.teamwizardry.librarianlib.features.facade.layers.SpriteLayer
-import com.teamwizardry.librarianlib.features.facade.layers.TextLayer
 import com.teamwizardry.librarianlib.features.facade.provided.pastry.Pastry
 import com.teamwizardry.librarianlib.features.facade.provided.pastry.PastryTexture
 import com.teamwizardry.librarianlib.features.helpers.vec
-import com.teamwizardry.librarianlib.features.kotlin.Minecraft
 import com.teamwizardry.librarianlib.features.math.Align2d
 import com.teamwizardry.librarianlib.features.utilities.client.LibCursor
-import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
 
-@ExperimentalBitfont
 class PastryButton @JvmOverloads constructor(
         buttonText: String = "",
         posX: Int, posY: Int, width: Int? = null, height: Int = Pastry.lineHeight,

@@ -113,7 +113,7 @@ public class IMValueBoolean implements GuiAnimatable<IMValueBoolean> {
     private static abstract class Storage {
         abstract boolean get();
 
-        static class Fixed extends IMValueBoolean.Storage {
+        static class Fixed extends Storage {
             boolean value;
             public Fixed(boolean value) {
                 this.value = value;
@@ -125,7 +125,7 @@ public class IMValueBoolean implements GuiAnimatable<IMValueBoolean> {
             }
         }
 
-        static class Callback extends IMValueBoolean.Storage {
+        static class Callback extends Storage {
             BooleanSupplier callback;
             public Callback(BooleanSupplier callback) {
                 this.callback = callback;

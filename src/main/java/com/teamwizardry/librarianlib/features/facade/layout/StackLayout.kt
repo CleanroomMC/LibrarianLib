@@ -28,6 +28,7 @@ import kotlin.math.max
  *
  * The [build] static methods are provided to concisely build a stack layout.
  */
+@JvmDefaultWithoutCompatibility
 interface StackLayout {
 
     var horizontal: Boolean
@@ -40,7 +41,6 @@ interface StackLayout {
     fun fitToLength()
     fun fitToBreadth()
 
-    @JvmDefault
     fun fitToChildren() {
         this.fitToLength()
         this.fitToBreadth()

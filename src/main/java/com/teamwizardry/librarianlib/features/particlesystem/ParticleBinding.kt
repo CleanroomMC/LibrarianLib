@@ -65,10 +65,10 @@ interface WriteParticleBinding: ParticleBinding {
  * @see PathVelocityBinding
  * @see VariableBinding
  */
+@JvmDefaultWithoutCompatibility
 interface ParticleBinding {
     val contents: DoubleArray
 
-    @JvmDefault
     fun require(size: Int) {
         if (this.contents.size != size)
             throw IllegalArgumentException("Binding size is incorrect, required: $size, actual: ${this.contents.size}")

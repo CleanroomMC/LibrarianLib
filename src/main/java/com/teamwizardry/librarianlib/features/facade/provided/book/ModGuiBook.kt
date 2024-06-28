@@ -45,13 +45,13 @@ open class ModGuiBook(override val book: Book) : GuiBase(), IBookGui {
     override var processArrow: Sprite = guideBookSheet.getSprite("process_arrow")
     override var materialIcon: Sprite = guideBookSheet.getSprite("material_icon")
 
-    override val mainBookComponent: ComponentSprite
-    override val paperComponent: ComponentSprite
-    override val bindingComponent: ComponentSprite
+    final override val mainBookComponent: ComponentSprite
+    final override val paperComponent: ComponentSprite
+    final override val bindingComponent: ComponentSprite
 
     override var focus: GuiComponent? = null
 
-    override val navBar: ComponentNavBar
+    final override val navBar: ComponentNavBar
 
 
     init {

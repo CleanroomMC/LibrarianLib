@@ -29,7 +29,7 @@ import java.util.*
 @Suppress("LeakingThis")
 open class BlockModDoor(name: String, val parent: IBlockState) : BlockDoor(parent.material), IModBlock, IModelGenerator {
 
-    override val variants: Array<out String>
+    final override val variants: Array<out String>
 
     override val bareName: String = VariantHelper.toSnakeCase(name)
     val modId = currentModId

@@ -4,10 +4,11 @@ import com.teamwizardry.librarianlib.features.kotlin.whileNonNull
 import com.teamwizardry.librarianlib.features.particlesystem.bindings.StoredBinding
 import com.teamwizardry.librarianlib.features.particlesystem.bindings.VariableBinding
 import com.teamwizardry.librarianlib.features.particlesystem.modules.DepthSortModule
-import org.magicwerk.brownies.collections.GapList
+// import org.magicwerk.brownies.collections.GapList
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.collections.ArrayList
 
 /**
  * A system of particles with similar behavior.
@@ -78,7 +79,7 @@ abstract class ParticleSystem {
 
     internal val queuedAdditions = ConcurrentLinkedQueue<DoubleArray>()
     internal val shouldQueue = AtomicBoolean(false)
-    internal val particles: MutableList<DoubleArray> = GapList<DoubleArray>()
+    internal val particles: MutableList<DoubleArray> = ArrayList()
     private val particlePool = ArrayDeque<DoubleArray>(poolSize)
 
     /**

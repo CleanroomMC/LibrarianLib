@@ -6,7 +6,6 @@ import com.teamwizardry.librarianlib.features.facade.provided.pastry.components.
 import com.teamwizardry.librarianlib.features.facade.value.IMValue
 import com.teamwizardry.librarianlib.features.facade.value.IMValueInt
 import com.teamwizardry.librarianlib.features.facade.value.RMValue
-import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
 
 interface IComponentTooltip {
     /**
@@ -44,7 +43,6 @@ interface IComponentTooltip {
     val tooltipLayer: GuiLayer?
 }
 
-@UseExperimental(ExperimentalBitfont::class)
 class ComponentTooltipHandler: IComponentTooltip {
     lateinit var component: GuiComponent
 
