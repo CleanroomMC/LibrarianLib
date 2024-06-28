@@ -18,6 +18,7 @@ base.archivesBaseName = prop("mod_name") + "-" + prop("mc_version")
 
 minecraft {
     mcVersion.set("1.12.2")
+    extraRunJvmArguments.add("-Dfml.coremods.load=${prop("core_plugin")}")
 }
 
 //version = prop("mod_version")
@@ -124,7 +125,10 @@ tasks {
 //        archiveClassifier = "fat"
 
         manifest {
-            attributes("FMLCorePluginContainsFMLMod" to true)
+            attributes(
+                "FMLCorePluginContainsFMLMod" to true,
+                "FMLCorePlugin" to prop("core_plugin"),
+            )
         }
     }
 
