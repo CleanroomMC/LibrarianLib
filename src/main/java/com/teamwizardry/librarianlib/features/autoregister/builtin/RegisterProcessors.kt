@@ -36,7 +36,7 @@ object TileRegisterProcessor : AnnotationMarkerProcessor<TileRegister, TileEntit
             loc = ResourceLocation(owner, loc.path)
         }
         AbstractSaveHandler.cacheFields(clazz)
-        GameRegistry.registerTileEntity(clazz, loc.toString())
+        GameRegistry.registerTileEntity(clazz, loc)
     }
 }
 

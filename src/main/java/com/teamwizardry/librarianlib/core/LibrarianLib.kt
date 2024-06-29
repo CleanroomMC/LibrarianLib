@@ -87,14 +87,14 @@ object LibrarianLib {
 
     const val MODID = "librarianlib"
     const val MODNAME = "LibrarianLib"
-    const val MAJOR = "GRADLE:VERSION"
-    const val MINOR = "GRADLE:BUILD"
+    const val MAJOR = "4"
+    const val MINOR = "22"
     const val VERSION = "$MAJOR.$MINOR"
     const val ALLOWED = "[1.12,)"
     const val CLIENT = "com.teamwizardry.librarianlib.core.client.LibClientProxy"
     const val SERVER = "com.teamwizardry.librarianlib.core.common.LibCommonProxy"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.0,);required-after:forge@[13.19.1.2195,)"
-    const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
+    const val DEPENDENCIES = "required-after:forgelin_continuous"
+    const val ADAPTER = "io.github.chaosunity.forgelin.KotlinAdapter"
 
     @SidedProxy(clientSide = CLIENT, serverSide = SERVER)
     lateinit var PROXY: LibCommonProxy

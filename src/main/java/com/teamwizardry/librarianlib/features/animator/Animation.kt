@@ -149,7 +149,7 @@ abstract class Animation<T : Any?>(val target: T, val property: IAnimatable<T>) 
         internal set
 
     internal fun onAddedToAnimator(animator: Animator) {
-        if (isTimeRelative) {
+        if (useAbsoluteTime) {
             start += animator.time
         }
         this._id = animator.nextID++

@@ -116,7 +116,7 @@ public class IMValueDouble implements GuiAnimatable<IMValueDouble> {
     private static abstract class Storage {
         abstract double get();
 
-        static class Fixed extends IMValueDouble.Storage {
+        static class Fixed extends Storage {
             double value;
             public Fixed(double value) {
                 this.value = value;
@@ -128,7 +128,7 @@ public class IMValueDouble implements GuiAnimatable<IMValueDouble> {
             }
         }
 
-        static class Callback extends IMValueDouble.Storage {
+        static class Callback extends Storage {
             DoubleSupplier callback;
             public Callback(DoubleSupplier callback) {
                 this.callback = callback;

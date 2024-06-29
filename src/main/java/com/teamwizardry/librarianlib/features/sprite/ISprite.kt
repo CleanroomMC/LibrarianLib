@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * the [LTextureAtlasSprite] is needed in some cases.
  */
 @SideOnly(Side.CLIENT)
+@JvmDefaultWithoutCompatibility
 interface ISprite {
 
     /**
@@ -133,25 +134,21 @@ interface ISprite {
     /**
      * The fraction of the sprite along the minimum U edge that should not be distorted when stretching the sprite.
      */
-    @JvmDefault
     val minUCap: Float get() = 0f
 
     /**
      * The fraction of the sprite along the minimum V edge that should not be distorted when stretching the sprite.
      */
-    @JvmDefault
     val minVCap: Float get() = 0f
 
     /**
      * The fraction of the sprite along the maximum U edge that should not be distorted when stretching the sprite.
      */
-    @JvmDefault
     val maxUCap: Float get() = 0f
 
     /**
      * The fraction of the sprite along the maximum V edge that should not be distorted when stretching the sprite.
      */
-    @JvmDefault
     val maxVCap: Float get() = 0f
 
     /**
@@ -160,7 +157,6 @@ interface ISprite {
      *
      * If both this and [pinBottom] are false, this sprite will render as if both were true
      */
-    @JvmDefault
     val pinTop: Boolean get() = true
 
     /**
@@ -169,7 +165,6 @@ interface ISprite {
      *
      * If both this and [pinTop] are false, this sprite will render as if both were true
      */
-    @JvmDefault
     val pinBottom: Boolean get() = true
 
     /**
@@ -178,7 +173,6 @@ interface ISprite {
      *
      * If both this and [pinRight] are false, this sprite will render as if both were true
      */
-    @JvmDefault
     val pinLeft: Boolean get() = true
 
     /**
@@ -187,16 +181,13 @@ interface ISprite {
      *
      * If both this and [pinLeft] are false, this sprite will render as if both were true
      */
-    @JvmDefault
     val pinRight: Boolean get() = true
 
     /**
      * The number of clockwise 90° rotations should be made when drawing this sprite.
      */
-    @JvmDefault
     val rotation: Int get() = 0
 
-    @JvmDefault
     fun pinnedWrapper(top: Boolean, bottom: Boolean, left: Boolean, right: Boolean): ISprite {
         return PinnedWrapper(this, top, bottom, left, right)
     }

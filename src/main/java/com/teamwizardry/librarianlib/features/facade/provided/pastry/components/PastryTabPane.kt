@@ -5,9 +5,7 @@ import com.teamwizardry.librarianlib.features.facade.layers.SpriteLayer
 import com.teamwizardry.librarianlib.features.facade.provided.pastry.ExperimentalPastryAPI
 import com.teamwizardry.librarianlib.features.facade.provided.pastry.PastryTexture
 import com.teamwizardry.librarianlib.features.helpers.vec
-import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
 
-@ExperimentalBitfont
 @ExperimentalPastryAPI
 class PastryTabPane : GuiComponent {
     private val background = SpriteLayer(PastryTexture.tabsBody)

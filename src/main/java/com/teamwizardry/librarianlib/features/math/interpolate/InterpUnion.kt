@@ -62,4 +62,4 @@ class InterpUnion<T> {
     }
 }
 
-internal data class UnionEntry<T>(val func: InterpFunction<T>, val start: Float, val end: Float)
+data class UnionEntry<T>(val func: InterpFunction<T>, val start: Float, val end: Float)

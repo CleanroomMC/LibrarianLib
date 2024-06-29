@@ -18,7 +18,6 @@ import com.teamwizardry.librarianlib.features.kotlin.delegate
 import com.teamwizardry.librarianlib.features.math.Axis2d
 import com.teamwizardry.librarianlib.features.math.Vec2d
 import com.teamwizardry.librarianlib.features.sprite.Texture
-import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
@@ -189,7 +188,6 @@ open class LibGuiImpl(
         internal var mouseWheelModifier: Double = -16.0/360
     }
 
-    @UseExperimental(ExperimentalBitfont::class)
     private class DebugDialogComponent : GuiComponent() {
         override var pos: Vec2d
             get() = vec(root.size.xi/2, root.size.yi/2)

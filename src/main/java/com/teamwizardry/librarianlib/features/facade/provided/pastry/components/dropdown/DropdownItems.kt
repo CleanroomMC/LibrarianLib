@@ -4,7 +4,7 @@ import com.teamwizardry.librarianlib.features.facade.component.GuiLayer
 import com.teamwizardry.librarianlib.features.facade.layers.SpriteLayer
 import com.teamwizardry.librarianlib.features.facade.layers.TextLayer
 import com.teamwizardry.librarianlib.features.facade.provided.pastry.PastryTexture
-import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
+// import games.thecodewarrior.bitfont.utils.ExperimentalBitfont
 
 abstract class PastryDropdownItem<T>(
     /**
@@ -28,7 +28,7 @@ abstract class PastryDropdownItem<T>(
     abstract fun createLayer(): GuiLayer
 }
 
-@ExperimentalBitfont
+//@ExperimentalBitfont
 class DropdownTextItem<T>(value: T, val string: String): PastryDropdownItem<T>(value, false, false) {
     override fun createLayer(): GuiLayer {
         val layer = TextLayer(0, 0, string)

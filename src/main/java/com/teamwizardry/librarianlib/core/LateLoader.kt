@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 
-@Mod(modid = LateLoader.MODID, version = LibrarianLib.VERSION, name = LateLoader.MODNAME, dependencies = LateLoader.DEPENDENCIES, modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
+@Mod(modid = LateLoader.MODID, version = LibrarianLib.VERSION, name = LateLoader.MODNAME, dependencies = LateLoader.DEPENDENCIES, modLanguageAdapter = LibrarianLib.ADAPTER)
 object LateLoader {
 
     @Mod.EventHandler

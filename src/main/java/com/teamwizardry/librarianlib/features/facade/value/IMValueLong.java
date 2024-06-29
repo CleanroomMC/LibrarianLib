@@ -116,7 +116,7 @@ public class IMValueLong implements GuiAnimatable<IMValueLong> {
     private static abstract class Storage {
         abstract long get();
 
-        static class Fixed extends IMValueLong.Storage {
+        static class Fixed extends Storage {
             long value;
             public Fixed(long value) {
                 this.value = value;
@@ -128,7 +128,7 @@ public class IMValueLong implements GuiAnimatable<IMValueLong> {
             }
         }
 
-        static class Callback extends IMValueLong.Storage {
+        static class Callback extends Storage {
             LongSupplier callback;
             public Callback(LongSupplier callback) {
                 this.callback = callback;
