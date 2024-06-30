@@ -1,14 +1,14 @@
 [
 {
   "modid": "librarianlib",
-  "name": "LibrarianLib",
-  "description": "A library for the Team Wizardry mods",
+  "name": "LibrarianLib-Continuous",
+  "description": "A library for the Team Wizardry mods, continuously maintained by CleanroomMC.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/CleanroomMC/LibrarianLib",
   "updateUrl": "",
-  "authorList": ["thecodewarrior", "wiresegal", "LordSaad44", "Elucent", "Eladkay", "murapix", "werty1124", "Leviathan143"],
-  "credits": "Team Wizardry",
+  "authorList": ["thecodewarrior", "wiresegal", "LordSaad44", "Elucent", "Eladkay", "murapix", "werty1124", "Leviathan143", "CaliforniaDemise", "ChAoSUnItY"],
+  "credits": "Team Wizardry and CleanroomMC",
   "logoFile": "/logo_LibrarianLib.png",
   "screenshots": [],
   "dependencies": []
