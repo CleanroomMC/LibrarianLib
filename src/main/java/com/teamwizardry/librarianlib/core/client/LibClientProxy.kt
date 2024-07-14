@@ -3,6 +3,7 @@ package com.teamwizardry.librarianlib.core.client
 import com.teamwizardry.librarianlib.core.LibrarianLib
 import com.teamwizardry.librarianlib.core.client.commands.ClientCommands
 import com.teamwizardry.librarianlib.core.common.LibCommonProxy
+import com.teamwizardry.librarianlib.features.container.GuiHandler
 import com.teamwizardry.librarianlib.features.forgeevents.CustomWorldRenderEvent
 import com.teamwizardry.librarianlib.features.helpers.VariantHelper
 import com.teamwizardry.librarianlib.features.helpers.vec
@@ -68,7 +69,9 @@ class LibClientProxy : LibCommonProxy(), ISelectiveResourceReloadListener {
         GameParticleSystems
         AllocationDisplay
 
-        val s = MethodHandleHelper.wrapperForGetter(Minecraft::class.java, "metadataSerializer", "field_110452_an")(Minecraft.getMinecraft()) as MetadataSerializer
+        val s = MethodHandleHelper.wrapperForGetter(Minecraft::class.java, "metadataSerializer", "field_110452_an")(
+            Minecraft.getMinecraft()
+        ) as MetadataSerializer
         s.registerMetadataSectionType(SpritesMetadataSectionSerializer(), SpritesMetadataSection::class.java)
         SpritesMetadataSection.registered = true
 
@@ -81,7 +84,9 @@ class LibClientProxy : LibCommonProxy(), ISelectiveResourceReloadListener {
     override fun init(e: FMLInitializationEvent) {
         super.init(e)
 
-        if(ClientCommands.root.subCommands.isNotEmpty())
+        GuiHandler.registerBook()
+
+        if (ClientCommands.root.subCommands.isNotEmpty())
             ClientCommandHandler.instance.registerCommand(ClientCommands.root)
     }
 
@@ -173,7 +178,13 @@ class LibClientProxy : LibCommonProxy(), ISelectiveResourceReloadListener {
             GlStateManager.disableTexture2D()
             GlStateManager.color(1f, 1f, 1f, 1f)
 
-            MinecraftForge.EVENT_BUS.post(CustomWorldRenderEvent(Minecraft.getMinecraft().world, e.context, partialTicks))
+            MinecraftForge.EVENT_BUS.post(
+                CustomWorldRenderEvent(
+                    Minecraft.getMinecraft().world,
+                    e.context,
+                    partialTicks
+                )
+            )
 
             GlStateManager.enableTexture2D()
             GlStateManager.popMatrix()
@@ -181,5 +192,13 @@ class LibClientProxy : LibCommonProxy(), ISelectiveResourceReloadListener {
     }
 }
 
-private val Minecraft.renderPartialTicksPaused by MethodHandleHelper.delegateForReadOnly<Minecraft, Float>(Minecraft::class.java, "renderPartialTicksPaused", "field_193996_ah")
-private val Minecraft.timer by MethodHandleHelper.delegateForReadOnly<Minecraft, net.minecraft.util.Timer>(Minecraft::class.java, "timer", "field_71428_T")
+private val Minecraft.renderPartialTicksPaused by MethodHandleHelper.delegateForReadOnly<Minecraft, Float>(
+    Minecraft::class.java,
+    "renderPartialTicksPaused",
+    "field_193996_ah"
+)
+private val Minecraft.timer by MethodHandleHelper.delegateForReadOnly<Minecraft, net.minecraft.util.Timer>(
+    Minecraft::class.java,
+    "timer",
+    "field_71428_T"
+)

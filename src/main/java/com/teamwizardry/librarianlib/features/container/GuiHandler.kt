@@ -5,6 +5,7 @@ import com.teamwizardry.librarianlib.core.LibrarianLib
 import com.teamwizardry.librarianlib.features.base.item.ItemModBook
 import com.teamwizardry.librarianlib.features.container.internal.ContainerImpl
 import com.teamwizardry.librarianlib.features.kotlin.getTileEntitySafely
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemBlock
@@ -14,6 +15,8 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.fml.common.network.IGuiHandler
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 
 /**
  * Created by TheCodeWarrior
@@ -22,16 +25,6 @@ object GuiHandler : IGuiHandler {
 
     private val registry = mutableMapOf<ResourceLocation, GuiEntry>()
     private val ids = HashBiMap.create<ResourceLocation, Int>()
-
-    init {
-        registerRaw(ResourceLocation(LibrarianLib.MODID, "book"), null) { player, world, _ ->
-            val pair = getStack<ItemModBook>(player)
-            if (pair == null) null else {
-                val (item, stack) = pair
-                item.createGui(player, world, stack) as GuiScreen
-            }
-        }
-    }
 
     private inline fun <reified T : Any> getStack(p: EntityPlayer): Pair<T, ItemStack>? {
         var target: T? = tFromStack(p.heldItemMainhand)
@@ -110,6 +103,17 @@ object GuiHandler : IGuiHandler {
             }
 
         registerRaw(name, rawServer, rawClient)
+    }
+    
+    @SideOnly(Side.CLIENT)
+    fun registerBook() {
+        registerRaw(ResourceLocation(LibrarianLib.MODID, "book"), null) { player, world, _ ->
+            val pair = getStack<ItemModBook>(player)
+            if (pair == null) null else {
+                val (item, stack) = pair
+                item.createGui(player, world, stack) as GuiScreen
+            }
+        }
     }
 
     override fun getClientGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any? {
