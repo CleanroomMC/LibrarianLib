@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val modVersion: String by ext.properties
@@ -76,6 +77,7 @@ tasks {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_1_8)
             javaParameters.set(true)
+            languageVersion.set(KotlinVersion.KOTLIN_1_9)
             freeCompilerArgs.add("-Xjvm-default=all-compatibility")
         }
     }
