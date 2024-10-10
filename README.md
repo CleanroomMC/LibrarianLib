@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.teamwizardry.librarianlib:LibrarianLib-Continuous-1.12:4.22-2.0"
+    compile "com.teamwizardry.librarianlib:LibrarianLib-Continuous-1.12:4.22-2.2"
 }
 ```
 
@@ -49,6 +49,6 @@ repositories {
 }
 
 dependencies {
-    compile("com.teamwizardry.librarianlib:LibrarianLib-Continuous-1.12:4.22-2.0")
+    compile("com.teamwizardry.librarianlib:LibrarianLib-Continuous-1.12:4.22-2.2")
 }
 ```
