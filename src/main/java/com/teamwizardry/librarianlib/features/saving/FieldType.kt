@@ -1,10 +1,9 @@
 package com.teamwizardry.librarianlib.features.saving
 
 import com.google.common.reflect.TypeToken
-import com.google.gson.internal.`$Gson$Types`
+import com.google.gson.internal.GsonTypes
 import com.teamwizardry.librarianlib.features.methodhandles.MethodHandleHelper
 import java.lang.reflect.*
-import java.util.*
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.internal.KotlinReflectionInternalError
 import kotlin.reflect.jvm.javaField
@@ -12,7 +11,14 @@ import kotlin.reflect.jvm.javaGetter
 import kotlin.reflect.jvm.javaType
 
 
-val getGenericSuperclassMH = MethodHandleHelper.wrapperForStaticMethod(`$Gson$Types`::class.java, "getGenericSupertype", null, Type::class.java, Class::class.java, Class::class.java)
+val getGenericSuperclassMH = MethodHandleHelper.wrapperForStaticMethod(
+    GsonTypes::class.java,
+    "getGenericSupertype",
+    null,
+    Type::class.java,
+    Class::class.java,
+    Class::class.java
+)
 
 abstract class FieldType protected constructor(val type: Type, annotated: AnnotatedType?, open val clazz: Class<*>) {
     val annotations: Array<Annotation> = annotated?.annotations ?: emptyArray()
@@ -27,7 +33,7 @@ abstract class FieldType protected constructor(val type: Type, annotated: Annota
         get() = arrayOf()
 
     fun resolve(type: Type, annotated: AnnotatedType?): FieldType {
-        return FieldType.create(`$Gson$Types`.resolve(this.type, this.clazz, type), annotated)
+        return create(GsonTypes.resolve(this.type, this.clazz, type), annotated)
     }
 
     fun resolveGeneric(iface: Class<*>, index: Int): FieldType {
@@ -36,7 +42,10 @@ abstract class FieldType protected constructor(val type: Type, annotated: Annota
     }
 
     fun genericSuperclass(clazz: Class<*>): FieldType {
-        return FieldType.create(getGenericSuperclassMH(arrayOf(this.type, this.clazz, clazz)) as Type, null) // TODO: Implement supertype annotations
+        return create(
+            getGenericSuperclassMH(arrayOf(this.type, this.clazz, clazz)) as Type,
+            null
+        ) // TODO: Implement supertype annotations
     }
 
     companion object {
@@ -45,7 +54,7 @@ abstract class FieldType protected constructor(val type: Type, annotated: Annota
             try { // Test for a missing (i.e. sideonly) property
                 prop.javaGetter?.let { return create(it) }
                 prop.javaField?.let { return create(it) }
-            } catch (e: KotlinReflectionInternalError) {
+            } catch (_: KotlinReflectionInternalError) {
                 // NO-OP
             }
 
@@ -74,6 +83,7 @@ abstract class FieldType protected constructor(val type: Type, annotated: Annota
                     createArray(type, annots)
                 else
                     createPlain(type, annots)
+
                 else -> FieldTypeError(type)
             }
         }
@@ -92,7 +102,6 @@ abstract class FieldType protected constructor(val type: Type, annotated: Annota
             return FieldTypeArray(type, annots, component)
         }
 
-        @Suppress("IfThenToElvis")
         private fun createGeneric(type: ParameterizedType, annots: AnnotatedType?): FieldType {
             val args = if (annots is AnnotatedParameterizedType) {
                 annots.annotatedActualTypeArguments.map { create(it.type, it) }
@@ -113,7 +122,12 @@ abstract class FieldType protected constructor(val type: Type, annotated: Annota
         }
 
         private fun createVariable(type: TypeVariable<*>, annots: AnnotatedType?): FieldType {
-            return FieldTypeVariable(type, annots, type.genericDeclaration as Class<*>, type.name, type.genericDeclaration.typeParameters.indexOfFirst { it.name == type.name })
+            return FieldTypeVariable(
+                type,
+                annots,
+                type.genericDeclaration as Class<*>,
+                type.name,
+                type.genericDeclaration.typeParameters.indexOfFirst { it.name == type.name })
         }
     }
 }
@@ -129,13 +143,14 @@ class FieldTypeError(type: Type) : FieldType(type, null, Any::class.java) {
     }
 
     override fun toString(): String {
-        return "ERR(" + type.toString() + ")"
+        return "ERR($type)"
     }
 }
 
 class FieldTypeClass(type: Type, annots: AnnotatedType?, clazz: Class<*>) : FieldType(type, annots, clazz) {
 
-    override val interfaces: Array<out Class<*>> = if (clazz.isInterface) arrayOf(*clazz.interfaces, clazz) else clazz.interfaces
+    override val interfaces: Array<out Class<*>> =
+        if (clazz.isInterface) arrayOf(*clazz.interfaces, clazz) else clazz.interfaces
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -155,7 +170,8 @@ class FieldTypeClass(type: Type, annots: AnnotatedType?, clazz: Class<*>) : Fiel
     }
 }
 
-class FieldTypeArray(type: Type, annots: AnnotatedType?, val componentType: FieldType) : FieldType(type, annots, getArrayType(componentType)) {
+class FieldTypeArray(type: Type, annots: AnnotatedType?, val componentType: FieldType) :
+    FieldType(type, annots, getArrayType(componentType)) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -171,7 +187,7 @@ class FieldTypeArray(type: Type, annots: AnnotatedType?, val componentType: Fiel
     }
 
     override fun toString(): String {
-        return componentType.toString() + annotString + "[]"
+        return "$componentType$annotString[]"
     }
 
     companion object {
@@ -181,7 +197,8 @@ class FieldTypeArray(type: Type, annots: AnnotatedType?, val componentType: Fiel
     }
 }
 
-class FieldTypeGeneric(type: Type, annots: AnnotatedType?, clazz: Class<*>, val generics: Array<FieldType>) : FieldType(type, annots, clazz) {
+class FieldTypeGeneric(type: Type, annots: AnnotatedType?, clazz: Class<*>, val generics: Array<FieldType>) :
+    FieldType(type, annots, clazz) {
 
     fun generic(i: Int): FieldType {
         return generics[i]
@@ -198,23 +215,24 @@ class FieldTypeGeneric(type: Type, annots: AnnotatedType?, clazz: Class<*>, val 
         if (other !is FieldTypeGeneric) return false
 
         if (clazz != other.clazz) return false
-        if (!Arrays.equals(generics, other.generics)) return false
+        if (!generics.contentEquals(other.generics)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = clazz.hashCode()
-        result = 31 * result + Arrays.hashCode(generics)
+        result = 31 * result + generics.contentHashCode()
         return result
     }
 
     override fun toString(): String {
-        return annotString + clazz.simpleName + "<" + generics.map { it.toString() }.joinToString(", ") + ">"
+        return annotString + clazz.simpleName + "<" + generics.joinToString(", ") { it.toString() } + ">"
     }
 }
 
-class FieldTypeVariable(type: Type, annots: AnnotatedType?, val parent: Class<*>, val name: String, val index: Int) : FieldType(type, annots, Any::class.java) {
+class FieldTypeVariable(type: Type, annots: AnnotatedType?, val parent: Class<*>, val name: String, val index: Int) :
+    FieldType(type, annots, Any::class.java) {
     override val clazz: Class<*>
         get() = throw UnsupportedOperationException("Cannot get class from variable field type!")
 

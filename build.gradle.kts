@@ -10,8 +10,8 @@ val corePlugin: String by ext.properties
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version("2.0.0")
-    id("com.gtnewhorizons.retrofuturagradle") version("1.3.35")
+    kotlin("jvm") version ("2.0.0")
+    id("com.gtnewhorizons.retrofuturagradle") version ("1.3.35")
 }
 
 minecraft {
@@ -41,6 +41,7 @@ dependencies {
     runtimeOnly("io.github.chaosunity.forgelin:Forgelin-Continuous:2.0.0.0") {
         isTransitive = false
     }
+    implementation("com.google.code.gson:gson:2.13.1")
 }
 
 tasks {
@@ -55,8 +56,8 @@ tasks {
 
     getByName<ProcessResources>("processResources") {
         val props = mapOf(
-                "version" to project.version,
-                "mcversion" to minecraft.mcVersion
+            "version" to project.version,
+            "mcversion" to minecraft.mcVersion
         )
 
         inputs.properties(props)
