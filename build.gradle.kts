@@ -10,8 +10,8 @@ val corePlugin: String by ext.properties
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version("2.0.0")
-    id("com.gtnewhorizons.retrofuturagradle") version("1.3.35")
+    kotlin("jvm") version("2.1.20")
+    id("com.gtnewhorizons.retrofuturagradle") version("1.4.5")
 }
 
 minecraft {
@@ -35,10 +35,10 @@ repositories {
 }
 
 dependencies {
-    api("io.github.chaosunity.forgelin:Forgelin-Continuous:2.0.0.0") {
+    api("io.github.chaosunity.forgelin:Forgelin-Continuous:2.1.20.0") {
         isTransitive = false
     }
-    runtimeOnly("io.github.chaosunity.forgelin:Forgelin-Continuous:2.0.0.0") {
+    runtimeOnly("io.github.chaosunity.forgelin:Forgelin-Continuous:2.1.20.0") {
         isTransitive = false
     }
 }

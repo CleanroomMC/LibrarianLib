@@ -1,8 +1,8 @@
 package com.teamwizardry.librarianlib.features.saving
 
 import com.google.common.reflect.TypeToken
-import com.google.gson.internal.`$Gson$Types`
 import com.teamwizardry.librarianlib.features.methodhandles.MethodHandleHelper
+import org.apache.commons.lang3.SystemUtils
 import java.lang.reflect.*
 import java.util.*
 import kotlin.reflect.KProperty
@@ -11,8 +11,9 @@ import kotlin.reflect.jvm.javaField
 import kotlin.reflect.jvm.javaGetter
 import kotlin.reflect.jvm.javaType
 
-
-val getGenericSuperclassMH = MethodHandleHelper.wrapperForStaticMethod(`$Gson$Types`::class.java, "getGenericSupertype", null, Type::class.java, Class::class.java, Class::class.java)
+val gsonClazz: Class<*> = Class.forName(if (SystemUtils.IS_JAVA_1_8) "com.google.gson.internal.\$Gson\$Types" else "com.google.gson.internal.GsonTypes")
+val resolveMethod = MethodHandleHelper.wrapperForStaticMethod(gsonClazz, "resolve", null, Type::class.java, Class::class.java, Type::class.java)
+val getGenericSuperclassMH = MethodHandleHelper.wrapperForStaticMethod(gsonClazz, "getGenericSupertype", null, Type::class.java, Class::class.java, Class::class.java)
 
 abstract class FieldType protected constructor(val type: Type, annotated: AnnotatedType?, open val clazz: Class<*>) {
     val annotations: Array<Annotation> = annotated?.annotations ?: emptyArray()
@@ -27,7 +28,7 @@ abstract class FieldType protected constructor(val type: Type, annotated: Annota
         get() = arrayOf()
 
     fun resolve(type: Type, annotated: AnnotatedType?): FieldType {
-        return FieldType.create(`$Gson$Types`.resolve(this.type, this.clazz, type), annotated)
+        return create(resolveMethod.invoke(arrayOf(this.type, this.clazz, type)) as Type, annotated)
     }
 
     fun resolveGeneric(iface: Class<*>, index: Int): FieldType {
@@ -36,7 +37,7 @@ abstract class FieldType protected constructor(val type: Type, annotated: Annota
     }
 
     fun genericSuperclass(clazz: Class<*>): FieldType {
-        return FieldType.create(getGenericSuperclassMH(arrayOf(this.type, this.clazz, clazz)) as Type, null) // TODO: Implement supertype annotations
+        return create(getGenericSuperclassMH(arrayOf(this.type, this.clazz, clazz)) as Type, null) // TODO: Implement supertype annotations
     }
 
     companion object {
